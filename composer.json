@@ -13,6 +13,7 @@
 	],
 	"require": {
 		"php": ">=5.2.0",
+		"iignatov/lightopenid": "~1.0",
 		"opauth/opauth": ">=0.2.0"
 	},
 	"autoload": {

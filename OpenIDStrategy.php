@@ -1,13 +1,13 @@
 <?php
 /**
  * OpenID strategy for Opauth
- * 
+ *
  * Implemented with Mewp's LightOpenID Library,
  *   included at Vendor/lightopenid
  *   (https://gitorious.org/lightopenid/lightopenid)
- * 
+ *
  * More information on Opauth: http://opauth.org
- * 
+ *
  * @copyright    Copyright © 2012 U-Zyn Chua (http://uzyn.com)
  * @link         http://opauth.org
  * @package      Opauth.OpenIDStrategy
@@ -16,21 +16,21 @@
 
 /**
  * OpenID strategy for Opauth
- * 
+ *
  * @package			Opauth.OpenIDStrategy
  */
 class OpenIDStrategy extends OpauthStrategy{
-	
+
 	/**
 	 * Compulsory config keys, listed as unassociative arrays
 	 */
 	public $expects = array();
-	
+
 	/**
 	 * Optional config keys, without predefining any default values.
 	 */
 	public $optionals = array();
-	
+
 	/**
 	 * Optional config keys with respective default values, listed as associative arrays
 	 * eg. array('scope' => 'email');
@@ -52,17 +52,17 @@ class OpenIDStrategy extends OpauthStrategy{
 		),
 		'identifier_form' => 'identifier_request.html'
 	);
-	
+
 	public function __construct($strategy, $env){
 		parent::__construct($strategy, $env);
-		
+
 		$parsed = parse_url($this->env['host']);
-		require dirname(__FILE__).'/Vendor/lightopenid/openid.php';
+
 		$this->openid = new LightOpenID($parsed['host']);
 		$this->openid->required = $this->strategy['required'];
 		$this->openid->optional = $this->strategy['optional'];
 	}
-	
+
 	/**
 	 * Ask for OpenID identifer
 	 */
@@ -113,7 +113,7 @@ class OpenIDStrategy extends OpauthStrategy{
 				'credentials' => array(),
 				'raw' => $this->openid->getAttributes()
 			);
-			
+
 			if (!empty($attributes['contact/email'])) $this->auth['info']['email'] = $attributes['contact/email'];
 			if (!empty($attributes['namePerson'])) $this->auth['info']['name'] = $attributes['namePerson'];
 			if (!empty($attributes['fullname'])) $this->auth['info']['name'] = $attributes['fullname'];
@@ -123,11 +123,11 @@ class OpenIDStrategy extends OpauthStrategy{
 			if (!empty($attributes['contact/phone'])) $this->auth['info']['phone'] = $attributes['contact/phone'];
 			if (!empty($attributes['contact/web'])) $this->auth['info']['urls']['website'] = $attributes['contact/web'];
 			if (!empty($attributes['media/image'])) $this->auth['info']['image'] = $attributes['media/image'];
-			
+
 			$this->callback();
 		}
 	}
-	
+
 	/**
 	 * Render a view
 	 */
